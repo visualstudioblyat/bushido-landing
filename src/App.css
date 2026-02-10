@@ -292,7 +292,14 @@ a, button, [role="button"], [role="tab"] {
 
 .hero__social {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.hero__social-text {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 }
 
 .hero__social-link {
