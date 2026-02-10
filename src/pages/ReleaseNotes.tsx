@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
 
 const CHANGELOG_URL = 'https://raw.githubusercontent.com/visualstudioblyat/bushido/main/CHANGELOG.md'
 
@@ -85,10 +86,6 @@ export default function ReleaseNotes() {
   const [loading, setLoading] = useState(true)
   const observerRef = useRef<IntersectionObserver | null>(null)
 
-  useEffect(() => {
-    document.title = 'Release notes — Bushido Browser'
-  }, [])
-
   // fetch + parse changelog
   useEffect(() => {
     fetch(CHANGELOG_URL)
@@ -122,6 +119,15 @@ export default function ReleaseNotes() {
 
   return (
     <main id="main-content" className="release-notes">
+      <Helmet>
+        <title>Release Notes — Bushido Browser</title>
+        <meta name="description" content="Release notes and changelog for Bushido Browser. Every update pulled live from the source." />
+        <link rel="canonical" href="https://bushido-browser.app/release-notes" />
+        <meta property="og:title" content="Release Notes — Bushido Browser" />
+        <meta property="og:description" content="Release notes and changelog for Bushido Browser. Every update pulled live from the source." />
+        <meta property="og:url" content="https://bushido-browser.app/release-notes" />
+      </Helmet>
+
       <div className="release-notes__header reveal">
         <h1 className="section-label">Changelog</h1>
         <p className="section-sub">

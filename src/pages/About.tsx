@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { GitHubIcon } from '../components/Icons'
 
 export default function About() {
-  useEffect(() => {
-    document.title = 'About — Bushido Browser'
-  }, [])
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -19,6 +16,15 @@ export default function About() {
 
   return (
     <main id="main-content" className="about">
+      <Helmet>
+        <title>About — Bushido Browser</title>
+        <meta name="description" content="About Bushido Browser — an open-source, privacy-first browser built in Tauri/Rust by an independent developer." />
+        <link rel="canonical" href="https://bushido-browser.app/about" />
+        <meta property="og:title" content="About — Bushido Browser" />
+        <meta property="og:description" content="About Bushido Browser — an open-source, privacy-first browser built in Tauri/Rust by an independent developer." />
+        <meta property="og:url" content="https://bushido-browser.app/about" />
+      </Helmet>
+
       <div className="about__header reveal">
         <h1 className="section-label">About Bushido</h1>
         <p className="about__mission">
