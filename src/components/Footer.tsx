@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { DownloadIcon } from './Icons'
 
 export default function Footer() {
   return (
