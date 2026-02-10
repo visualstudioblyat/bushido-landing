@@ -54,6 +54,16 @@ export default function About() {
           View on GitHub
         </a>
       </div>
+
+      <div className="about__contrib reveal">
+        <h2 className="about__group-title">Contact</h2>
+        <p className="section-sub">
+          For partnerships, questions, or just to say hi.
+        </p>
+        <a href="mailto:contact@bushido-browser.app" className="btn btn--ghost btn--sm">
+          contact@bushido-browser.app
+        </a>
+      </div>
     </main>
   )
 }

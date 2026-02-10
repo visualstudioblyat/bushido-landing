@@ -30,7 +30,9 @@ export default function Footer() {
           <div className="footer__col">
             <p>Community</p>
             <a href="https://github.com/visualstudioblyat/bushido" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://discord.gg/6s4tEk8X" target="_blank" rel="noopener noreferrer">Discord</a>
             <a href="https://github.com/visualstudioblyat/bushido/issues" target="_blank" rel="noopener noreferrer">Report an issue</a>
+            <a href="mailto:contact@bushido-browser.app">contact@bushido-browser.app</a>
           </div>
         </div>
       </div>
