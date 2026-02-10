@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { GitHubIcon, MenuIcon, CloseIcon } from './Icons'
+import { GitHubIcon, DiscordIcon, MenuIcon, CloseIcon } from './Icons'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -32,6 +32,9 @@ export default function Navbar() {
           <Link to="/about" className={`navbar__link ${location.pathname === '/about' ? 'navbar__link--active' : ''}`}>About</Link>
           <a href="https://github.com/visualstudioblyat/bushido" target="_blank" rel="noopener noreferrer" className="navbar__link navbar__link--icon" aria-label="GitHub">
             <GitHubIcon size={18} />
+          </a>
+          <a href="https://discord.gg/6s4tEk8X" target="_blank" rel="noopener noreferrer" className="navbar__link navbar__link--icon" aria-label="Discord">
+            <DiscordIcon size={18} />
           </a>
         </div>
 
