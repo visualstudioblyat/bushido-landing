@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { DiscordIcon } from './Icons'
+import { GitHubIcon } from './Icons'
 import BrowserDemo from '../demo/BrowserDemo'
 
 const ease = [0.25, 0.1, 0.25, 1] as const
@@ -108,9 +108,8 @@ export default function Hero() {
         animate={{ opacity: phase >= 3 ? 1 : 0 }}
         transition={{ duration: dur ?? 0.6, delay: reduced ? 0 : 0.2, ease }}
       >
-        <span className="hero__social-text">Keep up to date in my discord</span>
-        <a href="https://discord.gg/6s4tEk8X" target="_blank" rel="noopener noreferrer" className="hero__social-link" aria-label="Discord">
-          <DiscordIcon size={20} />
+        <a href="https://github.com/visualstudioblyat/bushido" target="_blank" rel="noopener noreferrer" className="hero__social-link" aria-label="GitHub">
+          <GitHubIcon size={20} />
         </a>
       </motion.div>
 
