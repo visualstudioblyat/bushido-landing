@@ -11,10 +11,9 @@ export default function Footer() {
             <span className="footer__name">Bushido</span>
           </div>
           <p className="footer__tagline">Browse with discipline</p>
-          <a href="https://github.com/visualstudioblyat/bushido/releases" className="btn btn--primary btn--sm">
-            <DownloadIcon size={16} />
-            Download
-          </a>
+          <span className="btn btn--primary btn--sm" style={{ opacity: 0.7, cursor: 'default' }}>
+            Coming soon
+          </span>
         </div>
 
         <div className="footer__columns">
@@ -38,7 +37,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <span>Built by the Bushido Team</span>
+        <span>Built by visualstudioblyat</span>
       </div>
     </footer>
   )

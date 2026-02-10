@@ -94,10 +94,9 @@ export default function Hero() {
         animate={{ opacity: phase >= 3 ? 1 : 0, y: phase >= 3 ? 0 : 12 }}
         transition={{ duration: dur ?? 0.6, delay: reduced ? 0 : 0.1, ease }}
       >
-        <a href="https://github.com/visualstudioblyat/bushido/releases" className="btn btn--primary">
-          <DownloadIcon size={16} />
-          Download beta
-        </a>
+        <span className="btn btn--primary" style={{ opacity: 0.7, cursor: 'default' }}>
+          Coming soon
+        </span>
         <a href="https://github.com/visualstudioblyat/bushido" target="_blank" rel="noopener noreferrer" className="btn btn--ghost">
           View on GitHub
         </a>
