@@ -708,6 +708,44 @@ a, button, [role="button"], [role="tab"] {
   color: rgba(255, 255, 255, 0.3);
 }
 
+.release__description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+/* collapsible details blocks inside release items */
+.release__category details {
+  margin-top: 8px;
+  border-left: 2px solid rgba(255, 255, 255, 0.08);
+  padding-left: 12px;
+}
+
+.release__category details summary {
+  font-size: 0.8rem;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.release__category details summary:hover {
+  color: var(--accent-hover);
+}
+
+.release__category details[open] summary {
+  margin-bottom: 8px;
+}
+
+.release__category details > p,
+.release__category details > div {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
 /* ========================================
    About
    ======================================== */

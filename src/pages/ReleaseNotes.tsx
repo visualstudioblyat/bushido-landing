@@ -12,6 +12,7 @@ interface Release {
   version: string
   date: string
   compareUrl?: string
+  description: string
   categories: ReleaseCategory[]
 }
 
@@ -22,53 +23,88 @@ const CATEGORY_COLORS: Record<string, string> = {
   Fixed: 'var(--color-fixed)',
   Removed: 'var(--color-breaking)',
   Security: 'var(--color-breaking)',
+  'Errors I hit': 'var(--color-fixed)',
+  Dependencies: 'var(--color-known)',
 }
 
 function parseChangelog(md: string): Release[] {
   const releases: Release[] = []
-  // split on version headers
   const blocks = md.split(/^## /m).filter(b => b.trim())
 
   for (const block of blocks) {
     const lines = block.split('\n')
     const firstLine = lines[0].trim()
 
-    // extract version (e.g. "v0.3.0")
     const versionMatch = firstLine.match(/^v?([\d.]+.*)/)
     if (!versionMatch) continue
     const version = versionMatch[1]
 
-    // extract date and compare URL from the first few lines (may have blank lines)
+    // extract date and compare URL
     let date = ''
     let compareUrl: string | undefined
+    let metaEndIdx = 1
     for (let j = 1; j < Math.min(lines.length, 5); j++) {
       const metaLine = lines[j]?.trim() || ''
       const dateMatch = metaLine.match(/\*\*(\d{4}-\d{2}-\d{2})\*\*/)
-      if (dateMatch) { date = dateMatch[1]; }
+      if (dateMatch) { date = dateMatch[1]; metaEndIdx = j + 1 }
       const linkMatch = metaLine.match(/\[Compare\]\((.*?)\)/)
-      if (linkMatch) { compareUrl = linkMatch[1]; }
+      if (linkMatch) { compareUrl = linkMatch[1]; metaEndIdx = j + 1 }
       if (date) break
     }
 
-    // parse categories
+    // collect description paragraphs between meta and first ### or ---
+    const descLines: string[] = []
+    let bodyStart = metaEndIdx
+    for (let i = metaEndIdx; i < lines.length; i++) {
+      const line = lines[i]
+      if (/^### /.test(line) || /^---/.test(line)) {
+        bodyStart = i
+        break
+      }
+      if (line.trim()) descLines.push(line.trim())
+      bodyStart = i + 1
+    }
+    const description = descLines.join(' ')
+
+    // parse categories with multi-line item accumulation
     const categories: ReleaseCategory[] = []
     let currentCategory: ReleaseCategory | null = null
 
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = bodyStart; i < lines.length; i++) {
       const line = lines[i]
+
+      // category header
       const catMatch = line.match(/^### (.+)/)
       if (catMatch) {
         currentCategory = { name: catMatch[1].trim(), items: [] }
         categories.push(currentCategory)
         continue
       }
+
+      // new bullet item
       const itemMatch = line.match(/^- (.+)/)
       if (itemMatch && currentCategory) {
         currentCategory.items.push(itemMatch[1])
+        continue
+      }
+
+      // continuation line — append to current item
+      // includes indented text, <details> blocks, blank lines within items
+      if (currentCategory && currentCategory.items.length > 0) {
+        const trimmed = line.trimEnd()
+        // skip section dividers
+        if (/^---/.test(trimmed)) continue
+        // append (preserve the line for HTML tags like <details>)
+        currentCategory.items[currentCategory.items.length - 1] += '\n' + trimmed
       }
     }
 
-    releases.push({ version, date, compareUrl, categories })
+    // trim trailing whitespace from all items
+    for (const cat of categories) {
+      cat.items = cat.items.map(item => item.trim())
+    }
+
+    releases.push({ version, date, compareUrl, description, categories })
   }
 
   return releases
@@ -86,7 +122,6 @@ export default function ReleaseNotes() {
   const [loading, setLoading] = useState(true)
   const observerRef = useRef<IntersectionObserver | null>(null)
 
-  // fetch + parse changelog
   useEffect(() => {
     fetch(CHANGELOG_URL)
       .then(r => {
@@ -103,7 +138,6 @@ export default function ReleaseNotes() {
       })
   }, [])
 
-  // reveal-on-scroll observer — re-run when releases load
   useEffect(() => {
     if (loading) return
     observerRef.current?.disconnect()
@@ -163,6 +197,10 @@ export default function ReleaseNotes() {
               </div>
             </div>
 
+            {release.description && (
+              <p className="release__description" dangerouslySetInnerHTML={{ __html: markdownInline(release.description) }} />
+            )}
+
             {release.categories.map(cat => (
               <div key={cat.name} className="release__category">
                 <h3 className="release__category-label" style={{ color: CATEGORY_COLORS[cat.name] || 'var(--text)' }}>
@@ -182,9 +220,12 @@ export default function ReleaseNotes() {
   )
 }
 
-// minimal inline markdown: **bold** and `code`
+// inline markdown: **bold**, *italic*, `code`, [link](url)
+// passes through HTML tags (<details>, <summary>, etc.) untouched
 function markdownInline(text: string): string {
   return text
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code style="font-size:0.8em;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06)">$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
 }
