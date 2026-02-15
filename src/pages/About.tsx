@@ -60,8 +60,8 @@ export default function About() {
         <p className="section-sub">
           For partnerships, questions, or just to say hi.
         </p>
-        <a href="mailto:contact@bushido-browser.app" className="btn btn--ghost btn--sm">
-          contact@bushido-browser.app
+        <a href="mailto:burnersiscool@gmail.com" className="btn btn--ghost btn--sm">
+          burnersiscool@gmail.com
         </a>
       </div>
     </main>

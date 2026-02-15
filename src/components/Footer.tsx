@@ -32,7 +32,7 @@ export default function Footer() {
             <a href="https://github.com/visualstudioblyat/bushido" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://discord.gg/6s4tEk8X" target="_blank" rel="noopener noreferrer">Discord</a>
             <a href="https://github.com/visualstudioblyat/bushido/issues" target="_blank" rel="noopener noreferrer">Report an issue</a>
-            <a href="mailto:contact@bushido-browser.app">contact@bushido-browser.app</a>
+            <a href="mailto:burnersiscool@gmail.com">burnersiscool@gmail.com</a>
           </div>
         </div>
       </div>
